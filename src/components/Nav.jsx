@@ -5,7 +5,7 @@ function Nav() {
 
   return (
     <nav>
-      <button onClick></button>
+     <img src="./assets/fes-logo.png" alt="Logo" />
       <Link to="/">Home</Link>
     </nav>
   );
