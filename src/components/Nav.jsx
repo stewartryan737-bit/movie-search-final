@@ -1,47 +1,37 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 import fesLogo from "../assets/fes-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-function Nav() {
-  const [movies, setMovies] = useState([]);
-  const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState("");
-  const { id } = useParams();
-  const [search, setSearch] = useState([id || ""]);
+function Nav({ setMovies, setLoading, setError }) {
+  const [search, setSearch] = useState("");
 
-      async function fetchMovies() {
-        setLoading(true);
-        const { data } = await axios.get(
-          `https://www.omdbapi.com/?s=${search}&apikey=f2f5394e`,
-        );
-        setMovies(data.Search);
-        console.log(data);
-        setLoading(false);
-      }
+  async function fetchMovies() {
+  if (!search.trim()) return;
 
-useEffect(() => {
-  if (!id) return;
+  setLoading(true);
+  setError("");
 
-  setSearch(id);
+  try {
+    const { data } = await axios.get(
+      `https://www.omdbapi.com/?s=${encodeURIComponent(search)}&apikey=f2f5394e`
+    );
 
-  async function loadMovies() {
-    setLoading(true);
-    try {
-      const { data } = await axios.get(
-        `https://www.omdbapi.com/?s=${encodeURIComponent(id)}&apikey=f2f5394e`
-      );
-      setMovies(data.Search ?? []);
-    } finally {
-      setLoading(false);
+    if (data.Response === "False") {
+      setMovies([]);
+      setError(data.Error);
+    } else {
+      setMovies(data.Search);
     }
+  } catch {
+    setMovies([]);
+    setError("Could not fetch movies. Please try again.");
+  } finally {
+    setLoading(false);
   }
-
-  loadMovies();
-}, [id]);
+}
 
   return (
   <>
@@ -72,24 +62,7 @@ useEffect(() => {
         <h1 className="logo__title" >Simplified</h1>
       </div>
     </div>
-       <div className="movies-grid">
-        <div className="movies">
-          {loading ? (
-            <p>Loading...</p>
-          ) : (
-            <div>
-              {movies.map((movie) => (
-                <div key={movie.imdbID}>
-                  <h2>{movie.Title}</h2>
-                  <p>{movie.Year}</p>
-                  <img src={movie.Poster} alt={movie.Title} />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-      </>
+    </>
   );
 }
 
