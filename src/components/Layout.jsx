@@ -1,5 +1,6 @@
 import Nav from "./Nav";
 
+
 function Layout({ children, setMovies, setLoading, setError }) {
   return (
     <div className="layout">

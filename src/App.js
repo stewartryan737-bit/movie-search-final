@@ -11,11 +11,7 @@ function App() {
 
   return (
     <div className="app">
-      <Layout
-        setMovies={setMovies}
-        setLoading={setLoading}
-        setError={setError}
-      >
+      <Layout setMovies={setMovies} setLoading={setLoading} setError={setError}>
         <Routes>
           <Route
             path="/"
