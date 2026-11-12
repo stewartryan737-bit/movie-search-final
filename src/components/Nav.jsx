@@ -3,13 +3,15 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import fesLogo from "../assets/fes-logo.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 function Nav() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
   // const [error, setError] = useState("");
   const { id } = useParams();
-  const [search, setSearch] = useState([id]);
+  const [search, setSearch] = useState([id || ""]);
 
       async function fetchMovies() {
         setLoading(true);
@@ -42,6 +44,7 @@ useEffect(() => {
 }, [id]);
 
   return (
+  <>
     <div className="nav">
       <form
         className="search-form"
@@ -50,35 +53,43 @@ useEffect(() => {
           fetchMovies();
         }}
       >
-        <input
-          className="search-form__input"
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search for movies..."
-        />
-        <button className="search-form__button" type="submit">Search</button>
+        <div className="search-form__group">
+          <input
+            className="search-form__input"
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search for movies..."
+          />
+          <button className="search-form__button" type="submit" aria-label="Search">
+            <FontAwesomeIcon className="search-form__icon" icon={faSearch} />
+          </button>
+        </div>
       </form>
+
       <div className="logo">
         <img className="logo__img" src={fesLogo} alt="Logo" />
-      </div>
-      <h1 className="logo__title">Simplified</h1>
-     <div className="movies">
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          <div>
-            {movies.map((movie) => (
-              <div key={movie.imdbID}>
-                <h2>{movie.Title}</h2>
-                <p>{movie.Year}</p>
-                <img src={movie.Poster} alt={movie.Title} />
-              </div>
-            ))}
-          </div>
-        )}
+        <h1 className="logo__title" >Simplified</h1>
       </div>
     </div>
+       <div className="movies-grid">
+        <div className="movies">
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            <div>
+              {movies.map((movie) => (
+                <div key={movie.imdbID}>
+                  <h2>{movie.Title}</h2>
+                  <p>{movie.Year}</p>
+                  <img src={movie.Poster} alt={movie.Title} />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+      </>
   );
 }
 
