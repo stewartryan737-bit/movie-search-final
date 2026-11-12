@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./index.css";
 import Home from "./pages/Home.jsx";
 import { Routes, Route } from "react-router-dom";
-import Nav from "./components/Nav.jsx";
+import Layout from "./components/Layout.jsx";
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -11,20 +11,18 @@ function App() {
 
   return (
     <div className="app">
-      <Nav
+      <Layout
         setMovies={setMovies}
         setLoading={setLoading}
         setError={setError}
-      />
-
-      <main>
+      >
         <Routes>
           <Route
             path="/"
             element={<Home movies={movies} loading={loading} error={error} />}
           />
         </Routes>
-      </main>
+      </Layout>
     </div>
   );
 }

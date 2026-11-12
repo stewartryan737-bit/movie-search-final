@@ -36,6 +36,10 @@ function Nav({ setMovies, setLoading, setError }) {
   return (
   <>
     <div className="nav">
+      <div className="logo">
+        <img className="logo__img" src={fesLogo} alt="Logo" />
+        <h1 className="logo__title" >Simplified</h1>
+      </div>
       <form
         className="search-form"
         onSubmit={(e) => {
@@ -57,10 +61,7 @@ function Nav({ setMovies, setLoading, setError }) {
         </div>
       </form>
 
-      <div className="logo">
-        <img className="logo__img" src={fesLogo} alt="Logo" />
-        <h1 className="logo__title" >Simplified</h1>
-      </div>
+      
     </div>
     </>
   );
