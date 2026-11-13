@@ -27,6 +27,7 @@ function Nav({ setMovies, setLoading, setError }) {
       setError("Could not fetch movies. Please try again.");
     } finally {
       setLoading(false);
+      setTimeout(() => setLoading(false), 500);
     }
   }, [setMovies, setLoading, setError]);
   useEffect(() => {
