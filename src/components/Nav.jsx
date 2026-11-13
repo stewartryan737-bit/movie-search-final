@@ -7,34 +7,35 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 function Nav({ setMovies, setLoading, setError }) {
   const [search, setSearch] = useState("Avengers");
-  const fetchMovies = useCallback(async (query) => {
-    setLoading(true);
-    setError("");
+  const fetchMovies = useCallback(
+    async (query) => {
+      setLoading(true);
+      setError("");
 
-    try {
-      const { data } = await axios.get(
-        `https://www.omdbapi.com/?s=${encodeURIComponent(query)}&apikey=f2f5394e`,
-      );
+      try {
+        const { data } = await axios.get(
+          `https://www.omdbapi.com/?s=${encodeURIComponent(query)}&apikey=f2f5394e`,
+        );
 
-      if (data.Response === "False") {
+        if (data.Response === "False") {
+          setMovies([]);
+          setError(data.Error);
+        } else {
+          setMovies(data.Search);
+        }
+      } catch {
         setMovies([]);
-        setError(data.Error);
-      } else {
-        setMovies(data.Search);
+        setError("Could not fetch movies. Please try again.");
+      } finally {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        setLoading(false);
       }
-    } catch {
-      setMovies([]);
-      setError("Could not fetch movies. Please try again.");
-    } finally {
-      setLoading(false);
-      setTimeout(() => setLoading(false), 500);
-    }
-  }, [setMovies, setLoading, setError]);
+    },
+    [setMovies, setLoading, setError],
+  );
   useEffect(() => {
     fetchMovies("Avengers");
   }, [fetchMovies]);
-
-
 
   return (
     <>

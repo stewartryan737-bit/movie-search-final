@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 function MovieCard({ movie, skeleton }) {
   if (skeleton) {
     return (
-      <div className="movie-card movie-card--skeleton">
-        <div className="movie-card__img--skeleton">
-          <h2 className="movie-card__title--skeleton">Loading...</h2>
-          <p className="movie-card__year--skeleton"></p>
-          <span className="button button--secondary">View Details</span>
-        </div>
-      </div>
+    <div className="movie-card movie-card--skeleton">
+      <div className="movie-card__img--skeleton" />
+      <div className="movie-card__content">
+     <h2 className="movie-card__title--skeleton" />
+     <p className="movie-card__year--skeleton" />
+ </div>
+ </div>
     );
   }
 
