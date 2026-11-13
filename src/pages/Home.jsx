@@ -1,7 +1,9 @@
 import { useState } from "react";
 import MovieCard from "../components/MovieCard";
+import { useOutletContext } from "react-router-dom";
 
-function Home({ movies, loading, error }) {
+const Home = () => {
+  const { movies, loading, error } = useOutletContext();
   const [sort, setSort] = useState("");
 
   const sortedMovies = [...movies];
@@ -24,17 +26,19 @@ function Home({ movies, loading, error }) {
         </label>
       </div>
 
+     <div className="movies-grid" id="moviesGrid">
       {loading ? (
-        <p>Loading...</p>
+        Array(10).fill(0).map((_, index) => (
+          <MovieCard key={index} skeleton={true} />
+        ))
       ) : error ? (
         <p role="alert">{error}</p>
       ) : (
-        <div className="movies-grid">
-          {sortedMovies.map((movie) => (
-            <MovieCard key={movie.imdbID} movie={movie} />
-          ))}
-        </div>
+        sortedMovies.map((movie) => (
+          <MovieCard key={movie.imdbID} movie={movie} />
+        ))
       )}
+     </div>
     </div>
   );
 }

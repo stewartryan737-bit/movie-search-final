@@ -1,16 +1,19 @@
 import Nav from "./Nav";
+import Footer from "./Footer";
+import { useState } from "react";
+import { Outlet } from "react-router-dom";
 
 
-function Layout({ children, setMovies, setLoading, setError }) {
+const Layout = () => {
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   return (
-    <div className="layout">
-      <Nav
-        setMovies={setMovies}
-        setLoading={setLoading}
-        setError={setError}
-      />
-      <main>{children}</main>
-    </div>
+    <>
+      <Nav setMovies={setMovies} setLoading={setLoading} setError={setError} />
+      <Outlet context={{ movies, loading, error }} />
+      <Footer />
+    </>
   );
 }
 
