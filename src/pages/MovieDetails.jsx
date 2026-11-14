@@ -51,7 +51,28 @@ function MovieDetails() {
       </div>
 
       {loading ? (
-        <p>Loading movie details...</p>
+        <div
+          className="movie-details__content"
+          role="status"
+          aria-label="Loading movie details"
+        >
+          <div className="movie-details__poster--skeleton" />
+
+          <div className="movie-details__text--wrapper">
+            <div className="movie-details__info--skeleton">
+              <div className="movie-details__info-line--skeleton" />
+              <div className="movie-details__title--skeleton" />
+              <div className="movie-details__info-line--skeleton" />
+              <div className="movie-details__info-line--skeleton" />
+            </div>
+
+            <div className="movie-details__detail--skeleton">
+              <div className="movie-details__detail-title--skeleton" />
+              <div className="movie-details__detail-text--skeleton" />
+              <div className="movie-details__detail-text--skeleton" />
+            </div>
+          </div>
+        </div>
       ) : error ? (
         <p role="alert">{error}</p>
       ) : movie ? (
